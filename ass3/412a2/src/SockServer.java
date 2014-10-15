@@ -29,7 +29,7 @@ public class SockServer {
     public SockServer() throws Exception {
         System.out.println("The server is running.");
         int clientNumber = 0;
-        int port_num = 8080;
+        int port_num = 18080;
         System.out.println("Please enter the port number");
         ServerSocket listener = new ServerSocket(port_num);
         try {
