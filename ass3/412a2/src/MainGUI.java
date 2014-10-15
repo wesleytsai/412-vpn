@@ -17,6 +17,12 @@ import javax.swing.DefaultComboBoxModel;
 public class MainGUI {
 
 	/**
+	 * Managers
+	 */
+	private ConnectionManager connectionManager;
+	private RSAManager rsaManager;
+
+	/**
 	 * The UI Components
 	 */
 	private JFrame frame;
@@ -25,18 +31,8 @@ public class MainGUI {
 	private JTextField textSharedkey;
 	private JTextField textRecieved;
 	private JTextField textSendMessage;
-	private JComboBox<ConnectionType> comboBoxConnectionMode;
-
-	public enum ConnectionType {
-		Server,
-		Client
-	}
-	
-	/**
-	 * Sockets
-	 */
-	private SockClient client;
-	private SockServer server;
+	private JLabel lblConnectionStatus;
+	private JComboBox<ConnectionManager.ConnectionType> comboBoxConnectionMode;
 
 	/**
 	 * Launch the application.
@@ -58,22 +54,9 @@ public class MainGUI {
 	 * Create the application.
 	 */
 	public MainGUI() {
+		connectionManager = new ConnectionManager();
+		rsaManager = new RSAManager();
 		initialize();
-
-		// if !client, application is in server mode.
-		boolean client = false;
-
-		System.out.println("Please enter client or server mode");
-		if(client) {
-			SockClient myClient = new SockClient();
-        }
-		else {
-			try {
-                SockServer myServer = new SockServer();
-			} catch (Exception ex) {
-				System.out.println(ex.getStackTrace());
-			}
-		}
 	}
 
 	/**
@@ -91,8 +74,8 @@ public class MainGUI {
 		lblAssignmentTitle.setBounds(32, 11, 231, 33);
 		frame.getContentPane().add(lblAssignmentTitle);
 		
-		comboBoxConnectionMode = new JComboBox<ConnectionType>();
-		comboBoxConnectionMode.setModel(new DefaultComboBoxModel<ConnectionType>(ConnectionType.values()));
+		comboBoxConnectionMode = new JComboBox<ConnectionManager.ConnectionType>();
+		comboBoxConnectionMode.setModel(new DefaultComboBoxModel<ConnectionManager.ConnectionType>(ConnectionManager.ConnectionType.values()));
 		comboBoxConnectionMode.setBounds(32, 55, 109, 33);
 		frame.getContentPane().add(comboBoxConnectionMode);
 		
@@ -116,7 +99,7 @@ public class MainGUI {
 		frame.getContentPane().add(textPort);
 		textPort.setColumns(10);
 		
-		JLabel lblConnectionStatus = new JLabel("Status: Disconnected");
+		lblConnectionStatus = new JLabel("Status: Disconnected");
 		lblConnectionStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblConnectionStatus.setForeground(Color.RED);
 		lblConnectionStatus.setBounds(32, 99, 667, 33);
@@ -167,7 +150,7 @@ public class MainGUI {
 		// WT TODO: If the mode is client, start authentication with server at IP:PORT
 		// 			If the mode is server, start listening on specified port
 		
-		switch ((ConnectionType)comboBoxConnectionMode.getSelectedItem())
+		switch ((ConnectionManager.ConnectionType)comboBoxConnectionMode.getSelectedItem())
 		{
 		case Client:
 			System.out.println("Client Mode Clicked");
@@ -180,6 +163,13 @@ public class MainGUI {
 
 	private void onSendButtonClicked(MouseEvent e) {
 		// WT TODO: IF connection is open and is authenticated, then send over encrypted message
+		if (connectionManager.getConnectionStatus() == ConnectionManager.ConnectionStatus.Authenticated)
+		{
+			// Do yo thang
+		}
+		else
+		{
 
+		}
 	}
 }
