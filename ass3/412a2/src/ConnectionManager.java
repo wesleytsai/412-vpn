@@ -9,7 +9,7 @@ public class ConnectionManager {
 
 	private ConnectionType mode;
 	private ConnectionStatus status;
-	private int ip;
+	private String ip;
 	private int port;
 	private SockClient client;
 	private SockServer server;
@@ -21,16 +21,27 @@ public class ConnectionManager {
 	}
 
 	public void setMode(ConnectionType type) {
-			if(server) {
-				server = new SockServer();
-				
+		switch (type)
+		{
+		case Server:
+			try {
+                server = new SockServer();
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
-			else {
-				client = new SockClient();
-				client.setServerAddress(ip);
-				client.setServerPort(port);
-				client.connectToServer();
+            break;
+
+		case Client:
+			try {
+                client = new SockClient();
+                client.setServerAddress(ip);
+                client.setServerPort(port);
+                client.connectToServer();
+			} catch (Exception ex) {
+				ex.printStackTrace();
 			}
+            break;
+		}
 	}
 
 	public void sendMessage(byte[] data) {
