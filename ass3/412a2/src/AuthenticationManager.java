@@ -2,8 +2,8 @@
 /**
  * Encrypt and decrypt stuff
  */
-public class RSAManager {
-	public RSAManager() {
+public class AuthenticationManager {
+	public AuthenticationManager() {
 	}
 	
 	public byte[] encrypt(byte[] data, byte[] key)

@@ -20,7 +20,7 @@ public class MainGUI {
 	 * Managers
 	 */
 	private ConnectionManager connectionManager;
-	private RSAManager rsaManager;
+	private AuthenticationManager rsaManager;
 
 	/**
 	 * The UI Components
@@ -55,7 +55,7 @@ public class MainGUI {
 	 */
 	public MainGUI() {
 		connectionManager = new ConnectionManager();
-		rsaManager = new RSAManager();
+		rsaManager = new AuthenticationManager();
 		initialize();
 	}
 
