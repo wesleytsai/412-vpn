@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainGUI {
 
@@ -20,7 +22,7 @@ public class MainGUI {
 	 * Managers
 	 */
 	private ConnectionManager connectionManager;
-	private AuthenticationManager rsaManager;
+	private AuthenticationManager authenticationManager;
 
 	/**
 	 * The UI Components
@@ -60,7 +62,7 @@ public class MainGUI {
 	 */
 	public MainGUI() {
 		connectionManager = new ConnectionManager();
-		rsaManager = new AuthenticationManager();
+		authenticationManager = new AuthenticationManager();
 		initialize();
 	}
 
@@ -98,11 +100,13 @@ public class MainGUI {
 		textIP.setBounds(151, 55, 259, 33);
 		frame.getContentPane().add(textIP);
 		textIP.setColumns(10);
+		textIP.setText("128.189.218.192");
 		
 		textPort = new JTextField();
 		textPort.setBounds(420, 55, 116, 33);
 		frame.getContentPane().add(textPort);
 		textPort.setColumns(10);
+		textPort.setText("12345");
 		
 		lblConnectionStatus = new JLabel("Status: Disconnected");
 		lblConnectionStatus.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -153,6 +157,15 @@ public class MainGUI {
 		textLog = new JTextArea();
 		textLog.setBounds(675, 17, 277, 397);
 		frame.getContentPane().add(textLog);
+		
+		JButton btnStartRecieving = new JButton("Start Recieving");
+		btnStartRecieving.addMouseListener(new MouseAdapter() {
+			public void actionPerformed(MouseEvent e) {
+				onStartRecievingClicked(e);
+			}
+		});
+		btnStartRecieving.setBounds(286, 204, 124, 23);
+		frame.getContentPane().add(btnStartRecieving);
 	}
 	
 	private void onConnectionStartButtonClicked(MouseEvent e) {
@@ -177,6 +190,10 @@ public class MainGUI {
 		} catch (NumberFormatException numEx) {
 			Log("Please fill in the port");
 		}
+		
+	}
+	
+	private void onStartRecievingClicked(MouseEvent e) {
 		
 	}
 

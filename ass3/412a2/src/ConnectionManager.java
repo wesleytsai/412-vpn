@@ -29,6 +29,7 @@ public class ConnectionManager {
 		case Server:
 			try {
                 server = new SockServer();
+                server.setClientAddress(ip);
 			} catch (Exception ex) {
 				MainGUI.Log(ex.getMessage());
 			}
