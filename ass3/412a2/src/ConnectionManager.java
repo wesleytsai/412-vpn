@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class ConnectionManager {
 	public enum ConnectionStatus {
 		Disconnected, MaliciousConnection, Authenticated
@@ -48,15 +50,27 @@ public class ConnectionManager {
 		}
 	}
 
-	public void sendMessage(byte[] data) {
+	public void sendMessage(String data) throws IOException {
+		switch(this.mode) {
+		case Server:
+			server.sendMessage(data);
+		case Client:
+			client.sendMessage(data);
+		}
 	}
 
 	public boolean hasMessage() {
 		return hasNewMessage;
 	}
 
-	public byte[] getMessage() {
-		return null;
+	public String getMessage() throws IOException {
+		switch(this.mode) {
+		case Server:
+			return server.receiveMessage();
+		case Client:
+			return client.receiveMessage();
+		}
+		return ip; //note: will never reach here.
 	}
 
 	public ConnectionStatus getConnectionStatus() {
