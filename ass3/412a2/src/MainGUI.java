@@ -13,8 +13,10 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextArea;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 public class MainGUI {
 
@@ -180,7 +182,6 @@ public class MainGUI {
             case Client:
                     Log("Client Mode Clicked");
                     connectionManager.setMode(ConnectionManager.ConnectionType.Client, textIP.getText(), port);
-
                     break;
             case Server:
                     Log("Server Mode Clicked");
@@ -190,22 +191,27 @@ public class MainGUI {
 		} catch (NumberFormatException numEx) {
 			Log("Please fill in the port");
 		}
-		
 	}
 	
 	private void onStartRecievingClicked(MouseEvent e) {
-		
+		try {
+			textRecieved.setText(connectionManager.getMessage());
+			Log("Message received!");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			Log("Error receiving message");
+		}
 	}
 
 	private void onSendButtonClicked(MouseEvent e) {
 		// WT TODO: IF connection is open and is authenticated, then send over encrypted message
-		if (connectionManager.getConnectionStatus() == ConnectionManager.ConnectionStatus.Authenticated)
-		{
-			// Do yo thang
-		}
-		else
-		{
-
-		}
+        String message = textSendMessage.getText();
+        Log("Attempting to send message: " + message);
+        try {
+            connectionManager.sendMessage(message);
+        } catch (IOException e1) {
+            e1.printStackTrace();
+			Log("Error sending message");
+        }
 	}
 }
