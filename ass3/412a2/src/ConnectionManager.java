@@ -30,7 +30,7 @@ public class ConnectionManager {
 			try {
                 server = new SockServer();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				MainGUI.Log(ex.getMessage());
 			}
             break;
 
@@ -41,7 +41,7 @@ public class ConnectionManager {
                 client.setServerPort(port);
                 client.connectToServer();
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				MainGUI.Log(ex.getMessage());
 			}
             break;
 		}

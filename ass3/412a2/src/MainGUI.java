@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextArea;
 
 public class MainGUI {
 
@@ -30,8 +31,13 @@ public class MainGUI {
 	private JTextField textSharedkey;
 	private JTextField textRecieved;
 	private JTextField textSendMessage;
+	private static JTextArea textLog;
 	private JLabel lblConnectionStatus;
 	private JComboBox<ConnectionManager.ConnectionType> comboBoxConnectionMode;
+	
+	public static void Log(String str) {
+		textLog.append(str + "\n");
+	}
 
 	/**
 	 * Launch the application.
@@ -64,7 +70,7 @@ public class MainGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 703, 523);
+		frame.setBounds(100, 100, 1000, 523);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -143,24 +149,35 @@ public class MainGUI {
 		});
 		btnSend.setBounds(286, 393, 89, 23);
 		frame.getContentPane().add(btnSend);
+		
+		textLog = new JTextArea();
+		textLog.setBounds(675, 17, 277, 397);
+		frame.getContentPane().add(textLog);
 	}
 	
 	private void onConnectionStartButtonClicked(MouseEvent e) {
 		// WT TODO: If the mode is client, start authentication with server at IP:PORT
 		// 			If the mode is server, start listening on specified port
 		
-		switch ((ConnectionManager.ConnectionType)comboBoxConnectionMode.getSelectedItem())
-		{
-		case Client:
-			System.out.println("Client Mode Clicked");
-			connectionManager.setMode(ConnectionManager.ConnectionType.Client, textIP.getText(), Integer.parseInt(textPort.getText()));
+		int port = 0;
+		try {
+			port = Integer.parseInt(textPort.getText());
+            switch ((ConnectionManager.ConnectionType)comboBoxConnectionMode.getSelectedItem())
+            {
+            case Client:
+                    Log("Client Mode Clicked");
+                    connectionManager.setMode(ConnectionManager.ConnectionType.Client, textIP.getText(), port);
 
-			break;
-		case Server:
-			System.out.println("Server Mode Clicked");
-			connectionManager.setMode(ConnectionManager.ConnectionType.Server, textIP.getText(), Integer.parseInt(textPort.getText()));
-			break;
+                    break;
+            case Server:
+                    Log("Server Mode Clicked");
+                    connectionManager.setMode(ConnectionManager.ConnectionType.Server, textIP.getText(), port);
+                    break;
+            }
+		} catch (NumberFormatException numEx) {
+			Log("Please fill in the port");
 		}
+		
 	}
 
 	private void onSendButtonClicked(MouseEvent e) {
