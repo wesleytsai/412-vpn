@@ -21,7 +21,16 @@ public class ConnectionManager {
 	}
 
 	public void setMode(ConnectionType type) {
-
+			if(server) {
+				server = new SockServer();
+				
+			}
+			else {
+				client = new SockClient();
+				client.setServerAddress(ip);
+				client.setServerPort(port);
+				client.connectToServer();
+			}
 	}
 
 	public void sendMessage(byte[] data) {
