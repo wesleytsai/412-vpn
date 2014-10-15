@@ -1,7 +1,6 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -154,9 +153,12 @@ public class MainGUI {
 		{
 		case Client:
 			System.out.println("Client Mode Clicked");
+			connectionManager.setMode(ConnectionManager.ConnectionType.Client, textIP.getText(), Integer.parseInt(textPort.getText()));
+
 			break;
 		case Server:
 			System.out.println("Server Mode Clicked");
+			connectionManager.setMode(ConnectionManager.ConnectionType.Server, textIP.getText(), Integer.parseInt(textPort.getText()));
 			break;
 		}
 	}

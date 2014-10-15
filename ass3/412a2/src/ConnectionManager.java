@@ -19,8 +19,11 @@ public class ConnectionManager {
 	
 	public ConnectionManager() { 
 	}
-
-	public void setMode(ConnectionType type) {
+	
+	public void setMode(ConnectionType type, String ip, int port) {
+		this.ip = ip;
+		this.port = port;
+		
 		switch (type)
 		{
 		case Server:
