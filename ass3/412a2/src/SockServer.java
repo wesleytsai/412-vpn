@@ -6,23 +6,38 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class SockServer {
-
+	private String clientAddress;
+	private int clientPort;
+	
     public SockServer() throws Exception {
         System.out.println("The server is running.");
-        int clientNumber = 0;
-        int port_num = 18080;
-        System.out.println("Please enter the port number");
-        ServerSocket listener = new ServerSocket(port_num);
+        ServerSocket listener = new ServerSocket(clientPort);
         try {
             while (true) {
-                new MessageHandler(listener.accept(), clientNumber++).start();
+                new MessageHandler(listener.accept()).start();
             }
         } finally {
             listener.close();
         }
     }
 
-    /**
+    public String getClientAddress() {
+		return clientAddress;
+	}
+
+	public void setClientAddress(String clientAddress) {
+		this.clientAddress = clientAddress;
+	}
+
+	public int getClientPort() {
+		return clientPort;
+	}
+
+	public void setClientPort(int clientPort) {
+		this.clientPort = clientPort;
+	}
+
+	/**
      * A private thread to handle capitalization requests on a particular
      * socket.  The client terminates the dialogue by sending a single line
      * containing only a period.
@@ -31,10 +46,9 @@ public class SockServer {
         private Socket socket;
         private int clientNumber;
 
-        public MessageHandler(Socket socket, int clientNumber) {
+        public MessageHandler(Socket socket) {
             this.socket = socket;
-            this.clientNumber = clientNumber;
-            log("New connection with client# " + clientNumber + " at " + socket);
+            log("New connection with client" + socket);
         }
 
         /**
@@ -53,8 +67,7 @@ public class SockServer {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
                 // Send a welcome message to the client.
-                out.println("Hello, you are client #" + clientNumber + ".");
-                out.println("Enter a line with only a period to quit\n");
+              out.println("Please send a message");
 
                 // Get messages from the client, line by line; return them
                 // capitalized
